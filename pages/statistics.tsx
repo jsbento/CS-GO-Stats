@@ -17,13 +17,19 @@ const Statistics = () => {
     return (
         <>
             <Formik validationSchema={CSNameScheme} initialValues={initialValues} onSubmit={async (values, actions) => {
-                    await fetch('/api/cs', { method: 'POST', body: JSON.stringify({ username: values.username })})
-                    .then((response) => response.json())
-                    .then((stats) => {
-                        setData(stats);
-                    })
-                    .catch((error) => {console.log(error);});
+                    const rawData = await fetch('/api/cs', { method: 'POST', body: JSON.stringify({ username: values.username })});
+                    const cleanData = await rawData.json();
+                    setData(cleanData);
                     actions.setSubmitting(false);
+                    console.log(cleanData);
+                    
+                    await fetch('/api/mongo', {
+                        method: 'POST',
+                        // headers: {'Content-Type':'application/json'},
+                        body: JSON.stringify({username: values.username, data:data})
+                    })
+                    .then((response) => {console.log(response.status);})
+                    .catch((error) => {console.log(error);});
                 }}>
                     <Form>
                         <label htmlFor="username">Username</label>
