@@ -11,7 +11,7 @@ const CSNameScheme = yup.object().shape({
     username: yup.string().trim().required("Required")
 });
 
-const About = () => {
+const Statistics = () => {
     const [data, setData] = useState<Stats | null>(null);
     const initialValues:FormValues = {username: ""};
     return (
@@ -36,4 +36,4 @@ const About = () => {
     );
 };
 
-export default About;
+export default Statistics;
