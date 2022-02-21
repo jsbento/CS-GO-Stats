@@ -11,7 +11,7 @@ const CSNameScheme = yup.object().shape({
     username: yup.string().trim().required("Required")
 });
 
-const Statistics = () => {
+const SavedStats = () => {
     const [data, setData] = useState<Stats | null>(null);
     //const [username, setUsername] = useState<string | null>("");
     const initialValues:FormValues = {username: ""};
@@ -19,16 +19,18 @@ const Statistics = () => {
     return (
         <>
             <Formik validationSchema={CSNameScheme} initialValues={initialValues} onSubmit={async (values, actions) => {
-                    const rawData = await fetch('/api/cs', { method: 'POST', body: JSON.stringify({ username: values.username })});
-                    const cleanData:Stats = await rawData.json();
-                    setData(cleanData);
                     actions.setSubmitting(false);
                     
-                    await fetch('/api/mongo', {
-                        method: 'POST',
-                        body: JSON.stringify({username: values.username, data:cleanData})
+                    await fetch(`/api/mongo?username=${values.username}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type':'application/json'
+                        }
                     })
-                    .then((response) => {console.log(response.status);})
+                    .then(async (response) => {
+                        return await response.json();
+                    })
+                    .then((stats) => {setData(stats);})
                     .catch((error) => {console.log(error);});
                 }}>
                     <Form>
@@ -42,4 +44,4 @@ const Statistics = () => {
     );
 };
 
-export default Statistics;
+export default SavedStats;
