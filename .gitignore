@@ -11,6 +11,9 @@
 # next.js
 /.next/
 /out/
+next-env.d.ts
+tsconfig.json
+next.config.js
 
 # production
 /build
@@ -37,3 +40,4 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+.eslintrc.json
