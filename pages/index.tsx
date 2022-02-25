@@ -13,8 +13,8 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to the CS stats tracker!
+        <h1 className="font-bold text-center text-6xl">
+          Welcome to the CS:GO statistics tracker!
         </h1>
 
         <p className={styles.description}>
