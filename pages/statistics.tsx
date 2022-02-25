@@ -26,7 +26,7 @@ const Statistics = () => {
                     
                     await fetch('/api/mongo', {
                         method: 'POST',
-                        body: JSON.stringify({username: values.username, data:cleanData})
+                        body: JSON.stringify({username: values.username, data:cleanData, timestamp:Date.now()})
                     })
                     .then((response) => {console.log(response.status);})
                     .catch((error) => {console.log(error);});

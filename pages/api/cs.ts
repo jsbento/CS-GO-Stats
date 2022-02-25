@@ -24,7 +24,6 @@ export type Stats = {
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Stats | string>) {
-    const key = process.env.TRN_API_KEY;
     if(!req.body)
         res.status(400).json("Invalid parameters.");
     try {
@@ -32,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         const raw_stats = await fetch(`https://public-api.tracker.gg/v2/csgo/standard/profile/steam/${username}`, {
             method: 'GET',
             headers: {
-                'TRN-Api-Key': key!
+                'TRN-Api-Key': process.env.TRN_API_KEY!
             }
         })
         .then(response => { return response.json(); })
