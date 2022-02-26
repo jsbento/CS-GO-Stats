@@ -17,7 +17,6 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
         }
         else if(req.method === "GET") {
             const {username} = req.query;
-            
             const result = statsCollection.find({"username": username});
             const docs = await result.toArray();
             res.status(200).json(docs);

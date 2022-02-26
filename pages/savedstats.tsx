@@ -2,9 +2,17 @@ import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
 import { Stats } from "./api/cs";
 import * as yup from "yup";
+import StatsCard from "../components/StatsCard";
 
 interface FormValues {
     username: string;
+}
+
+export interface ServerData {
+    _id: number | null,
+    username: string | null,
+    data: Stats,
+    timestamp: number | null
 }
 
 const CSNameScheme = yup.object().shape({
@@ -12,8 +20,7 @@ const CSNameScheme = yup.object().shape({
 });
 
 const SavedStats = () => {
-    const [data, setData] = useState<Stats | null>(null);
-    //const [username, setUsername] = useState<string | null>("");
+    const [data, setData] = useState<ServerData[] | null>(null);
     const initialValues:FormValues = {username: ""};
 
     return (
@@ -30,7 +37,10 @@ const SavedStats = () => {
                     .then(async (response) => {
                         return await response.json();
                     })
-                    .then((stats) => {setData(stats);})
+                    .then((stats) => {
+                        console.log(stats);
+                        setData(stats);
+                    })
                     .catch((error) => {console.log(error);});
                 }}>
                     <Form>
@@ -39,7 +49,8 @@ const SavedStats = () => {
                         <button type='submit'>Submit</button>
                     </Form>
             </Formik>
-            {data && (<pre>{JSON.stringify(data, null, 2)}</pre>)}
+            {/* {data && (<pre>{JSON.stringify(data, null, 2)}</pre>)} */}
+            {data ? <StatsCard {...data[0]}/> : null}
         </>
     );
 };
