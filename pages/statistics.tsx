@@ -13,7 +13,6 @@ const CSNameScheme = yup.object().shape({
 
 const Statistics = () => {
     const [data, setData] = useState<Stats | null>(null);
-    //const [username, setUsername] = useState<string | null>("");
     const initialValues:FormValues = {username: ""};
 
     return (
