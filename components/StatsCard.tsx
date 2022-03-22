@@ -10,8 +10,8 @@ const StatsCard:React.FC<ServerData> = ({data}) => {
     );
   }
   return (
-    <Box maxW="md" border="1px">
-        <Table variant="simple">
+    <Box maxW="sm" border="1px">
+        <Table variant="simple" size="sm">
           <Thead>
             <Tr>
               <Th>Statistic</Th><Th>Value</Th><Th>Percentile</Th>

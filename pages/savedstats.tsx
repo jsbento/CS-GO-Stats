@@ -49,11 +49,9 @@ const SavedStats = () => {
                         <button className="border-2 w-auto p-1 rounded-md m-1 font-semibold" type='submit'>Fetch Stats</button>
                     </Form>
             </Formik>
-            {/* {data && (<pre>{JSON.stringify(data, null, 2)}</pre>)} */}
-            <div>
-                {data ? <StatsCard {...data[0]}/> : null}
+            <div className="flex gap-3">
+                {data && data.length > 0 ? data.map(d => <StatsCard {...d}/>) : <p>No data to fetch!</p>}
             </div>
-            {/* Multiple Cards: https://jsfiddle.net/mrlew/cLbyyL27/ */}
         </div>
     );
 };
