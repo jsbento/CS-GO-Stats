@@ -16,7 +16,7 @@ const Statistics = () => {
     const initialValues:FormValues = {username: ""};
 
     return (
-        <>
+        <div className="flex flex-col justify-center items-center">
             <Formik validationSchema={CSNameScheme} initialValues={initialValues} onSubmit={async (values, actions) => {
                     const rawData = await fetch('/api/cs', { method: 'POST', body: JSON.stringify({ username: values.username })});
                     const cleanData:Stats = await rawData.json();
@@ -30,14 +30,16 @@ const Statistics = () => {
                     .then((response) => {console.log(response.status);})
                     .catch((error) => {console.log(error);});
                 }}>
-                    <Form>
-                        <label htmlFor="username">Username</label>
-                        <Field id="username" name="username" type="text" placeholder="Steam account/display name/SteamID" autoComplete="off"/>
-                        <button type='submit'>Submit</button>
+                    <Form className="flex flex-col justify-center items-center">
+                        <label className="font-semibold" htmlFor="username">Steam Account or Display Name</label>
+                        <Field className="border-2" id="username" name="username" type="text" placeholder="Steam account/display name/SteamID" autoComplete="off"/>
+                        <button className="border-2 w-auto p-1 rounded-md m-1 font-semibold" type='submit'>Fetch Stats</button>
                     </Form>
             </Formik>
-            {data && (<pre>{JSON.stringify(data, null, 2)}</pre>)}
-        </>
+            <div>
+                {data && (<pre>{JSON.stringify(data, null, 2)}</pre>)}
+            </div>
+        </div>
     );
 };
 
