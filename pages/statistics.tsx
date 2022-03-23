@@ -2,6 +2,8 @@ import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
 import { Stats } from "./api/cs";
 import * as yup from "yup";
+import StatsCard from "../components/StatsCard";
+import { ServerData } from "./savedstats";
 
 interface FormValues {
     username: string;
@@ -13,6 +15,7 @@ const CSNameScheme = yup.object().shape({
 
 const Statistics = () => {
     const [data, setData] = useState<Stats | null>(null);
+    const [timestamp, setTime] = useState<string | number>(0);
     const initialValues:FormValues = {username: ""};
 
     return (
@@ -21,11 +24,12 @@ const Statistics = () => {
                     const rawData = await fetch('/api/cs', { method: 'POST', body: JSON.stringify({ username: values.username })});
                     const cleanData:Stats = await rawData.json();
                     setData(cleanData);
+                    setTime(Date.now());
                     actions.setSubmitting(false);
                     
                     await fetch('/api/mongo', {
                         method: 'POST',
-                        body: JSON.stringify({username: values.username, data:cleanData, timestamp:Date.now()})
+                        body: JSON.stringify({username: values.username, data: cleanData, timestamp: timestamp})
                     })
                     .then((response) => {console.log(response.status);})
                     .catch((error) => {console.log(error);});
@@ -37,7 +41,7 @@ const Statistics = () => {
                     </Form>
             </Formik>
             <div>
-                {data && (<pre>{JSON.stringify(data, null, 2)}</pre>)}
+                {data && <StatsCard _id={null} data={data} username={null} timestamp={timestamp}/>}
             </div>
         </div>
     );

@@ -1,9 +1,9 @@
-import { Box, Table, Thead, Tr, Td, Th, Tbody } from '@chakra-ui/react';
+import { Box, Table, Thead, Tr, Td, Th, Tbody, TableCaption } from '@chakra-ui/react';
 import { ServerData } from '../pages/savedstats';
 import React from 'react';
 
 //https://chakra-ui.com/docs/layout/box
-const StatsCard:React.FC<ServerData> = ({data}) => {
+const StatsCard:React.FC<ServerData> = ({data, timestamp}) => {
   if(data == null) {
     return (
       <p>No data found for the given username.</p>
@@ -12,6 +12,7 @@ const StatsCard:React.FC<ServerData> = ({data}) => {
   return (
     <Box maxW="sm" border="1px">
         <Table variant="simple" size="sm">
+          <TableCaption>Data from {new Date(timestamp).toString()}</TableCaption>
           <Thead>
             <Tr>
               <Th>Statistic</Th><Th>Value</Th><Th>Percentile</Th>

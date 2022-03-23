@@ -12,7 +12,7 @@ export interface ServerData {
     _id: number | null,
     username: string | null,
     data: Stats,
-    timestamp: number | null
+    timestamp: string | number
 }
 
 const CSNameScheme = yup.object().shape({
