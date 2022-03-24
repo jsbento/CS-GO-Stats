@@ -8,7 +8,7 @@ interface FormValues {
     username: string;
 }
 
-interface ServerData {
+export interface ServerData {
     _id: number | null,
     username: string | null,
     data: Stats,
@@ -21,12 +21,14 @@ const CSNameScheme = yup.object().shape({
 
 const Statistics = () => {
     const [dataArr, setDataArr] = useState<ServerData[] | null>(null);
+    const [loading, setLoad] = useState<boolean | null>(null);
     const initialValues:FormValues = {username: ""};
 
     return (
         <div className="flex flex-col items-center">
             <Formik validationSchema={CSNameScheme} initialValues={initialValues} onSubmit={async (values, actions) => {
-                    const rawData = await fetch('/api/cs', { method: 'POST', body: JSON.stringify({ username: values.username })});
+                    setLoad(true);
+                    const rawData = await fetch('/api/cs', { method: 'POST', body: JSON.stringify({username: values.username})});
                     const cleanData:Stats = await rawData.json();
                     actions.setSubmitting(false);
                     
@@ -48,6 +50,7 @@ const Statistics = () => {
                     })
                     .then((stats) => {setDataArr(stats.reverse());})
                     .catch((error) => {console.log(error);});
+                    setLoad(false);
                 }}>
                     <Form className="flex flex-col justify-center items-center">
                         <label className="font-semibold" htmlFor="username">Steam Account or Display Name</label>
