@@ -24,7 +24,7 @@ const SavedStats = () => {
     const initialValues:FormValues = {username: ""};
 
     return (
-        <div className="flex flex-col justify-center items-center">
+        <div className="flex flex-col items-center">
             <Formik validationSchema={CSNameScheme} initialValues={initialValues} onSubmit={async (values, actions) => {
                     actions.setSubmitting(false);
                     
@@ -39,7 +39,7 @@ const SavedStats = () => {
                     })
                     .then((stats) => {
                         console.log(stats);
-                        setData(stats);
+                        setData(stats.reverse());
                     })
                     .catch((error) => {console.log(error);});
                 }}>
@@ -49,7 +49,7 @@ const SavedStats = () => {
                         <button className="border-2 w-auto p-1 rounded-md m-1 font-semibold" type='submit'>Fetch Stats</button>
                     </Form>
             </Formik>
-            <div className="flex gap-3">
+            <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {data && data.length > 0 ? data.map(d => <StatsCard {...d}/>) : <p>No data to fetch!</p>}
             </div>
         </div>
