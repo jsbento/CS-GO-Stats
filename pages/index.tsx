@@ -18,19 +18,18 @@ const Home: NextPage = () => {
         </h1>
 
         <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.tsx</code>
+          Track your performance in CS:GO using data visualizations and tips!
         </p>
 
         <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
+          <a href="/statistics" className={styles.card}>
+            <h2>Statistics &rarr;</h2>
+            <p>Fetch your most recent statistics and view statistics history.</p>
           </a>
 
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
+          <a href="/visualizations" className={styles.card}>
+            <h2>Visualize &rarr;</h2>
+            <p>Visualize your statistics and track growth with graphs and other visualizations.</p>
           </a>
 
           <a

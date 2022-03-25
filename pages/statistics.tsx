@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Stats } from "./api/cs";
 import * as yup from "yup";
 import StatsCard from "../components/StatsCard";
+import { NextPage } from "next";
 
 interface FormValues {
     username: string;
@@ -19,7 +20,7 @@ const CSNameScheme = yup.object().shape({
     username: yup.string().trim().required("Required")
 });
 
-const Statistics = () => {
+const Statistics: NextPage = () => {
     const [dataArr, setDataArr] = useState<ServerData[] | null>(null);
     const [loading, setLoad] = useState<boolean | null>(null);
     const initialValues:FormValues = {username: ""};

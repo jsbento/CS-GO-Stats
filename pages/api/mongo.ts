@@ -9,8 +9,7 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
         const db = client.db();
         const statsCollection = db.collection("stats");
         if(req.method === "POST") {
-            const result = await statsCollection.insertOne(JSON.parse(req.body));
-            console.log(result);
+            await statsCollection.insertOne(JSON.parse(req.body));
             res.status(201).json("Data inserted successfully.");
         }
         else if(req.method === "GET") {
