@@ -36,7 +36,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         })
         .then(response => {return response.json();})
         .then(data => {return data.data.segments[0].stats;})
-        .catch(error => {console.log(error);});
         
         const stats: Stats = {
             timePlayed: {value: raw_stats.timePlayed.value, percentile: raw_stats.timePlayed.percentile},
@@ -63,6 +62,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         res.status(200).json(stats);
     }
     catch(error) {
-        res.status(500).json("Internal server error.");
+        res.status(500).json("Internal server error, check username.");
     }
 }
