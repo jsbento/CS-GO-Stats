@@ -34,8 +34,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 'TRN-Api-Key': process.env.TRN_API_KEY!
             }
         })
-        .then(response => { return response.json(); })
-        .then(data => { return data.data.segments[0].stats;});
+        .then(response => {return response.json();})
+        .then(data => {return data.data.segments[0].stats;})
+        .catch(error => {console.log(error);});
         
         const stats: Stats = {
             timePlayed: {value: raw_stats.timePlayed.value, percentile: raw_stats.timePlayed.percentile},

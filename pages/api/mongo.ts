@@ -18,6 +18,11 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
             const docs = await result.toArray();
             res.status(200).json(docs);
         }
+        else if(req.method === "DELETE") {
+            const {username} = req.query;
+            await statsCollection.deleteMany({username: username});
+            res.status(202);
+        }
         else {
             res.status(405).json("Method not allowed.");
         }
