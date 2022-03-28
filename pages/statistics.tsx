@@ -93,7 +93,7 @@ const Statistics: NextPage = () => {
             </Formik>
             {dataErr ? <p className="text-center">Error fetching data. Please use Steam account name.</p> : null}
             <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {dataArr && dataArr.length > 0 ? dataArr.slice(0, 4).map(data => <StatsCard {...data}/>) : null}
+                {dataArr && dataArr.length > 0 ? dataArr.map(data => <StatsCard {...data}/>) : null}
             </div>
         </div>
     );
