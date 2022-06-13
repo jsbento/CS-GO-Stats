@@ -1,5 +1,5 @@
 import { Box, Table, Thead, Tr, Td, Th, Tbody, TableCaption } from '@chakra-ui/react';
-import { ServerData } from '../pages/statistics';
+import { ServerData } from '../../pages/statistics';
 import React from 'react';
 
 //https://chakra-ui.com/docs/layout/box

@@ -2,7 +2,7 @@ import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
 import { Stats } from "./api/cs";
 import * as yup from "yup";
-import StatsCard from "../components/StatsCard";
+import StatsCard from "../components/cards/StatsCard";
 import { NextPage } from "next";
 
 interface FormValues {
