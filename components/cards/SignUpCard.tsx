@@ -2,6 +2,7 @@ import React from "react";
 import { Form, Field, Formik } from "formik";
 import * as Yup from "yup";
 import CryptoJS from "crypto-js";
+import { User } from "../../types/User";
 import { FormValues } from "../../types/Form";
 import { getToken } from "../../utils/Tokens";
 
@@ -25,21 +26,21 @@ const SignUpCard: React.FC = () => {
     const checkExists = async (username: string) => {
         await fetch(`/api/users/find?username=${username}`, { method: "GET" })
         .then(res => {
-            if (res.status === 200) setExists(true);
+            if (res.status === 200)
+                setExists(true);
+            else
+                setExists(false);
         })
-        .catch(err => {
-            console.log(err);
-            alert("Error while checking username");
-        });
     }
 
     const createUser = async (values: FormValues) => {
         const { username, email, password } = values;
-        const encrypted = CryptoJS.AES.encrypt(password, process.env.CRYPTO_KEY!).toString();
+        const encrypted = CryptoJS.AES.encrypt(password, process.env.NEXT_PUBLIC_CRYPTO_KEY!).toString();
+        const user: User = { username, email: email!, password: encrypted };
         await fetch('/api/users/create', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, email, password: encrypted })
+            body: JSON.stringify(user)
         })
         .then(res => res.json())
         .catch(err => {

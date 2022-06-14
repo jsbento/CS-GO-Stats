@@ -10,15 +10,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(400).json("Invalid parameters.");
     
     const client = await MongoClient.connect(process.env.MONGODB_URI!);
-    const db = client.db('cs-stats');
+    const db = client.db();
     const usersCollection = db.collection('users');
     
     try {
-        const user: User = JSON.parse(req.body);
-        const result = await usersCollection.insertOne(user);
-        res.status(201).json({"message": "User created successfully.", "insertedId": result.insertedId});
+        const result = await usersCollection.insertOne(req.body);
+        res.status(201).json({message: "User created successfully.", insertedId: result.insertedId});
     } catch (error) {
-        res.status(500).json(error);
+        console.log(error);
+        res.status(500).json({message: error});
     } finally {
         await client.close();
     }

@@ -30,7 +30,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     const client = await MongoClient.connect(process.env.MONGODB_URI!);
-    const db = client.db('cs-stats');
+    const db = client.db();
     const usersCollection = db.collection('users');
     const token = generateToken();
 
