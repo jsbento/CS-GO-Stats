@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     const { username } = req.query;
-    if (username) {
+    if (!username) {
         res.status(400).json("Invalid parameters.");
         return;
     }
