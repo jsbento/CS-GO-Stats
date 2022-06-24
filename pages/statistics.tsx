@@ -57,15 +57,6 @@ const Statistics: NextPage = () => {
         .catch(error => {console.log(error);});
     };
 
-    /*
-    When users implemented
-
-    if(loggedIn)
-        return form
-    else
-        return "please log in"
-    */
-
     return (
         <div className="flex flex-col items-center">
             <Formik validationSchema={CSNameScheme} initialValues={initialValues} onSubmit={async (values, actions) => {

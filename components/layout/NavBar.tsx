@@ -9,7 +9,7 @@ const NavBar:React.FC = () => {
         <ul className='flex justify-end p-8 gap-5 items-center bg-gray-800 text-white mb-5'>
             <li className='mr-auto'><Logo /></li>
             { typeof window !== 'undefined' && window.sessionStorage.getItem('user') ?
-                <AuthNav /> : <a className='hover:scale-105 font-bold' href='login'>Login</a>
+                <AuthNav /> : <li><a className='hover:scale-105 font-bold' href='/login'>Login</a></li>
             }
         </ul>
     </>

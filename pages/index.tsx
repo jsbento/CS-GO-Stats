@@ -9,7 +9,7 @@ const Home: NextPage = () => {
       <Head>
         <title>CS:GO Statistics Tracker</title>
         <meta name="description" content="Track your CS game stats with one click!" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="http://localhost:3000/favicon.ico" />
       </Head>
 
       <main className={styles.main}>

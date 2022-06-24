@@ -35,7 +35,8 @@ const LoginCard: React.FC = () => {
             console.log(err);
             alert("Error while fetching user");
         });
-        window.sessionStorage.setItem("username", user.username);
+        window.sessionStorage.setItem("user", user.username);
+        window.sessionStorage.setItem("user_email", user.email);
         window.sessionStorage.setItem("token", JSON.stringify(user.token));
     }
 

@@ -1,6 +1,7 @@
 import React from 'react';
-import NavBar from './NavBar';
 import Footer from './Footer';
+import dynamic from 'next/dynamic';
+const NavBar = dynamic(() => import('./NavBar'), {ssr: false});
 
 const Layout:React.FC = ({children}) => {
   return (
