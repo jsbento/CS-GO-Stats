@@ -20,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     try {
         const stats = await statsCollection.find({ username }, {projection: { data: { [statKey]: { value: 1 } }, timestamp: 1}}).toArray();
-        const statData: number[] = stats.map(stat => stat.data[statKey].value - stats[0].data[statKey].value);
+        const statData: number[] = stats.map(stat => stat.data[statKey].value);
         const statTimestamps: number[] = stats.map(stat => (stat.timestamp - stats[0].timestamp)/(1000*60*60*24));
         if (!stats)
             res.status(404).json("Stats not found.");

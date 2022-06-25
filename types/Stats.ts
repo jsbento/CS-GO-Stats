@@ -19,3 +19,29 @@ export type Stats = {
     winLoss?: {value: number, percentile: number},
     headshotPct?: {value: number, percentile: number}
 }
+
+type StatNames = {
+    [key: string]: string
+}
+
+export const StatNames: StatNames = {
+    timePlayed: "Time Played",
+    score: "Score",
+    kills: "Kills",
+    deaths: "Deaths",
+    kd: "K/D",
+    damage: "Damage",
+    headshots: "Headshots",
+    shotsFired: "Shots Fired",
+    shotsHit: "Shots Hit",
+    accuracy: "Accuracy",
+    bombsPlanted: "Bombs Planted",
+    bombsDefused: "Bombs Defused",
+    hostagesRescued: "Hostages Rescued",
+    mvps: "MVPs",
+    matchesPlayed: "Matches Played",
+    wins: "Wins",
+    losses: "Losses",
+    winLoss: "Win/Loss",
+    headshotPct: "Headshot %"
+}
