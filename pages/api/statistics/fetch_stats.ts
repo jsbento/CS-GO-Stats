@@ -16,14 +16,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const username = cookie.user;
 
     try {
-        const raw_stats = await fetch(`https://public-api.tracker.gg/v2/csgo/standard/profile/steam/${username}`, {
+        const statsUrl = `https://public-api.tracker.gg/v2/csgo/standard/profile/steam/${username}`;
+        const raw_stats = await fetch(statsUrl, {
             method: "GET",
             headers: {
                 "TRN-Api-Key": process.env.TRN_API_KEY!
             }
         })
         .then(response => response.json())
-        .then (data => data.data.segments[0].stats);
+        .then (data => data.data.segments[0].stats)
+        .catch(error => console.log(error));
 
         const stats: Stats = {
             timePlayed: {value: raw_stats.timePlayed.value, percentile: raw_stats.timePlayed.percentile},
@@ -47,7 +49,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             headshotPct: {value: raw_stats.headshotPct.value, percentile: raw_stats.headshotPct.percentile}
         }
 
-        await fetch('/api/statistics/save', {
+        await fetch('http://localhost:3000/api/statistics/save', {
             method: 'POST',
             body: JSON.stringify({ username, stats, timestamp: Date.now() })
         })
@@ -57,6 +59,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             else
                 res.status(500).json({stats, message: "Error saving stats."});
         })
+        .catch(err => console.log(err));
     } catch (error) {
         res.status(500).json({error});
     }
