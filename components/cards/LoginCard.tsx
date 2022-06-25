@@ -1,10 +1,10 @@
 import React from "react";
 import { Form, Field, Formik } from "formik";
 import * as Yup from "yup";
-import CryptoJS from "crypto-js";
+import Cookies from "js-cookie";
 import { User } from "../../types/User";
 import { FormValues } from "../../types/Form";
-import { getToken } from "../../utils/Tokens";
+import { getToken, DAYS_IN_MS } from "../../utils/Tokens";
 
 const initialValues: FormValues = {
     username: "",
@@ -35,9 +35,13 @@ const LoginCard: React.FC = () => {
             console.log(err);
             alert("Error while fetching user");
         });
-        window.sessionStorage.setItem("user", user.username);
-        window.sessionStorage.setItem("user_email", user.email);
-        window.sessionStorage.setItem("token", JSON.stringify(user.token));
+
+        const cookie = {
+            user: user.username,
+            token: user.token
+        }
+
+        Cookies.set("info", JSON.stringify(cookie), { expires: new Date(Date.now() + (DAYS_IN_MS * 3)) });
     }
 
     return (

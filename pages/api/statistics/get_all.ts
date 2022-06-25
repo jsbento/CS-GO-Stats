@@ -7,9 +7,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return;
     }
 
-    const { username } = req.query;
-    if(!username) {
-        res.status(400).json("Invalid parameters.");
+    const cookie = JSON.parse(req.cookies.info);
+    if(!cookie || !cookie.user || !cookie.token) {
+        res.status(401).json("Unauthorized.");
         return;
     }
 
@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const statsCollection = db.collection('stats');
 
     try {
-        const stats = await statsCollection.find({ username }).toArray();
+        const stats = await statsCollection.find({ username: cookie.user }).toArray();
         if (!stats)
             res.status(404).json("Stats not found.");
         else

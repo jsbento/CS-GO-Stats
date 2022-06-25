@@ -1,30 +1,19 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Stats } from "../../../types/Stats";
 
-const isAuthorized = async (username: string | string[]) => {
-    const { valid } = await fetch(`/api/auth/fetch_token?username=${username}`, {
-        method: 'GET'
-    })
-    .then(response => response.json())
-    .then(data => data.valid)
-    .catch(err => {
-        console.log(err);
-        return false;
-    });
-    return valid;
-}
-
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== "GET") {
         res.status(405).json("Method not allowed.");
         return;
     }
 
-    const { username } = req.query;
-    if (!username) {
-        res.status(400).json("Invalid parameters.");
+    const cookie = JSON.parse(req.cookies.info);
+    if (!cookie) {
+        res.status(401).json("Unauthorized.");
         return;
     }
+
+    const username = cookie.user;
 
     try {
         const raw_stats = await fetch(`https://public-api.tracker.gg/v2/csgo/standard/profile/steam/${username}`, {
@@ -58,21 +47,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             headshotPct: {value: raw_stats.headshotPct.value, percentile: raw_stats.headshotPct.percentile}
         }
 
-        if (await isAuthorized(username)) {
-            await fetch('/api/stats/save', {
-                method: 'POST',
-                body: JSON.stringify({ username, stats, timestamp: Date.now() })
-            })
-            .then(response => {
-                if (response.status === 200)
-                    res.status(200).json({stats, message: "Stats saved."});
-                else
-                    res.status(500).json({stats, message: "Error saving stats."});
-            })
-        } else {
-            res.status(403).json({stats, message: "You are not authorized to save stats."});
-        }
+        await fetch('/api/statistics/save', {
+            method: 'POST',
+            body: JSON.stringify({ username, stats, timestamp: Date.now() })
+        })
+        .then(response => {
+            if (response.status === 200)
+                res.status(200).json({stats, message: "Stats saved."});
+            else
+                res.status(500).json({stats, message: "Error saving stats."});
+        })
     } catch (error) {
-        res.status(500).json(error);
+        res.status(500).json({error});
     }
 }

@@ -6,9 +6,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(405).json("Method not allowed.");
         return;
     }
-    const { username, stat } = req.query;
-    if (!username || !stat) {
+    const { stat } = req.query;
+    if (!stat) {
         res.status(400).json("Invalid parameters.");
+        return;
+    }
+
+    const username = JSON.parse(req.cookies.info).user;
+    if (!username) {
+        res.status(401).json("Unauthorized.");
         return;
     }
 

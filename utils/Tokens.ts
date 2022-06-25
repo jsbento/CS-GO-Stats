@@ -1,5 +1,8 @@
 import CryptoJS from "crypto-js";
+import Cookies from "js-cookie";
 import { User } from "../types/User";
+
+export const DAYS_IN_MS = 86400000;
 
 export const getToken = async (username: string, password: string) => {
     const encrypted = CryptoJS.AES.encrypt(password, process.env.NEXT_PUBLIC_CRYPTO_KEY!).toString();
@@ -14,7 +17,11 @@ export const getToken = async (username: string, password: string) => {
         console.log(err);
         alert(err.message);
     });
-    window.sessionStorage.setItem('user', user.username);
-    window.sessionStorage.setItem('user_email', user.email);
-    window.sessionStorage.setItem('token', JSON.stringify(user.token));
+
+    const cookie = {
+        user: user.username,
+        token: user.token
+    }
+
+    Cookies.set("info", JSON.stringify(cookie), { expires: new Date(Date.now() + (DAYS_IN_MS * 3)) });
 }

@@ -20,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const result = await statsCollection.insertOne({ username, stats, timestamp });
         res.status(201).json({"message": "Stats saved successfully.", "insertedId": result.insertedId});
     } catch (error) {
-        res.status(500).json(error);
+        res.status(500).json({error});
     } finally {
         await client.close();
     }

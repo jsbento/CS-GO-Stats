@@ -8,7 +8,7 @@ const StatPlot: React.FC<StatPlotProps> = ({ stat, title }) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = await fetch(`/api/statistics/fetch_stat?username=${window.sessionStorage.getItem('user')}&stat=${stat}`, {
+            const data = await fetch(`/api/statistics/fetch_stat?stat=${stat}`, {
                 method: "GET",
             })
             .then(res => res.json())

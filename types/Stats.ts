@@ -1,3 +1,5 @@
+import { ServerData } from "./Data";
+
 export type Stats = {
     timePlayed?: {value: number, percentile: number},
     score?: {value: number, percentile: number},
@@ -44,4 +46,8 @@ export const StatNames: StatNames = {
     losses: "Losses",
     winLoss: "Win/Loss",
     headshotPct: "Headshot %"
+}
+
+export interface StatCardsProps {
+    data: ServerData[]
 }

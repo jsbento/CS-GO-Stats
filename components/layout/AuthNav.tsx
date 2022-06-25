@@ -1,9 +1,10 @@
 import React from "react";
+import Cookies from "js-cookie";
 
 const AuthNav: React.FC = () => {
     const logout = () => {
-        window.sessionStorage.clear();
-        window.location.href = "/login";
+      Cookies.remove("info");
+      window.location.href = "/login";
     }
 
     return (
