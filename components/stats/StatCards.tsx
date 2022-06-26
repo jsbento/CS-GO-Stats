@@ -3,7 +3,7 @@ import StatsCard from "../cards/StatsCard";
 import { ServerData } from "../../types/Data";
 
 const StatCards: React.FC = () => {
-    const [dataArr, setDataArr] = useState<ServerData[] | null>(null);
+    const [dataArr, setDataArr] = useState<ServerData[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -12,7 +12,7 @@ const StatCards: React.FC = () => {
             })
             .then(res => res.json())
             .catch(err => console.log(err));
-            setDataArr(data);
+            setDataArr(data.reverse());
         }
         fetchData();
     }, [dataArr]);
@@ -20,7 +20,7 @@ const StatCards: React.FC = () => {
 
     return (
         <div className="grid gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {dataArr &&  dataArr.length > 0 && dataArr.map(d => <StatsCard {...d}/>)}
+            {dataArr.length > 0 && dataArr.map(data => <StatsCard {...data}/>)}
         </div>
     );
 }

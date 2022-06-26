@@ -25,7 +25,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         })
         .then(response => response.json())
         .then (data => data.data.segments[0].stats)
-        .catch(error => console.log(error));
 
         const stats: Stats = {
             timePlayed: {value: raw_stats.timePlayed.value, percentile: raw_stats.timePlayed.percentile},
@@ -51,15 +50,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         await fetch('http://localhost:3000/api/statistics/save', {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({ username, stats, timestamp: Date.now() })
         })
         .then(response => {
-            if (response.status === 200)
+            if (response.status === 201)
                 res.status(200).json({stats, message: "Stats saved."});
             else
                 res.status(500).json({stats, message: "Error saving stats."});
         })
-        .catch(err => console.log(err));
     } catch (error) {
         res.status(500).json({error});
     }
