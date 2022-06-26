@@ -6,3 +6,15 @@ export interface ServerData {
     data: Stats,
     timestamp: string | number
 }
+
+export interface DataInfo {
+    count: number,
+    pages: number,
+    next: string | null,
+    prev: string | null
+}
+
+export interface ServerDataResponse {
+    info: DataInfo,
+    stats: ServerData[]
+}
