@@ -1,9 +1,10 @@
-import React  from "react";
+import React from "react";
 import { GetServerSideProps, NextPage } from "next";
 import { Button } from "@chakra-ui/react";
 import StatCards from "../components/stats/StatCards";
 import { SWRConfig } from "swr";
-import { ServerData, ServerDataResponse } from "../types/Data";
+import { ServerData } from "../types/Data";
+import Router from "next/router";
 
 interface PageProps {
     page: number;
@@ -21,6 +22,7 @@ const Statistics: NextPage<PageProps> = ({ page, fallback }) => {
                                 method: "GET",
                             })
                             .catch(err => console.log(err));
+                            Router.reload();
                         }
                     }
                 >
