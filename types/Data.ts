@@ -1,4 +1,5 @@
 import { Stats } from "./Stats";
+import { WithId } from "mongodb";
 
 export interface ServerData {
     _id: number | null,
@@ -16,5 +17,5 @@ export interface DataInfo {
 
 export interface ServerDataResponse {
     info: DataInfo,
-    stats: ServerData[]
+    stats: ServerData[] | WithId<Document>[]
 }

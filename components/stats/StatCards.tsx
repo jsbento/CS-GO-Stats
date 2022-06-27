@@ -13,7 +13,7 @@ interface StatCardsProps {
 const fetcher = async (input: RequestInfo, init: RequestInit) => await fetch(input, init).then(res => res.json());
 
 const StatCards: React.FC<StatCardsProps> = ({ page }) => {
-    const [currPage, setCurrPage] = useState(page);
+    const [currPage, setCurrPage] = useState<number>(page);
 
     useEffect(() => {
         Cookies.set("page", currPage.toString(), { expires: 1/24 });
