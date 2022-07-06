@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { MongoClient } from "mongodb";
 
+const DAY_IN_MS = 24 * 60 * 60 * 1000;
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== "GET") {
         res.status(405).json("Method not allowed.");
@@ -25,9 +27,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const statsCollection = db.collection('stats');
 
     try {
-        const stats = await statsCollection.find({ username }, {projection: { data: { [statKey]: { value: 1 } }, timestamp: 1}}).toArray();
+        const start = Date.now();
+        const end = start - 30 * DAY_IN_MS;
+        const stats = await statsCollection.find({ username, timestamp: { '$lte': start, '$gte': end } }, {projection: { data: { [statKey]: { value: 1 } }, timestamp: 1}}).toArray();
         const statData: number[] = stats.map(stat => stat.data[statKey].value);
-        const statTimestamps: number[] = stats.map(stat => (stat.timestamp - stats[0].timestamp)/(1000*60*60*24));
+        const statTimestamps: number[] = stats.map(stat => (stat.timestamp - stats[0].timestamp)/(DAY_IN_MS));
         if (!stats)
             res.status(404).json("Stats not found.");
         else

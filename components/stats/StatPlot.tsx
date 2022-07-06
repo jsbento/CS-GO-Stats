@@ -38,7 +38,7 @@ const StatPlot: React.FC<StatPlotProps> = ({ stat, title }) => {
                         height: 500,
                         title, 
                         xaxis: {
-                            title: "days since first saved data"
+                            title: "last 30 days"
                         },
                         yaxis: {
                             title: stat
