@@ -19,7 +19,7 @@ const StatPlot: React.FC<StatPlotProps> = ({ stat, title }) => {
     }, []);
 
     return (
-        <div>
+        <div key={stat}>
             <Plot
                 data={[
                     {

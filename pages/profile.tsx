@@ -1,10 +1,9 @@
 import { NextPage } from "next";
+import ProfileCard from "../components/user/ProfileCard";
 
 const Profile: NextPage = () => {
     return (
-        <div>
-            <h1>Profile</h1>
-        </div>
+        <ProfileCard />
     );
 }
 

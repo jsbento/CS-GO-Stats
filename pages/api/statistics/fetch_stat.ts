@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { MongoClient } from "mongodb";
+import { startAnimation } from "framer-motion/types/animation/utils/transitions";
 
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
 
@@ -30,7 +31,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const start = Date.now();
         const end = start - 30 * DAY_IN_MS;
         const stats = await statsCollection.find({ username, timestamp: { '$lte': start, '$gte': end } }, {projection: { data: { [statKey]: { value: 1 } }, timestamp: 1}}).toArray();
-        const statData: number[] = stats.map(stat => stat.data[statKey].value);
+        const statData: number[] = stats.map(stat => {
+            if (statKey == 'timePlayed') {
+                return (stat.data[statKey].value / 3600).toFixed(2);
+            } else {
+                return stat.data[statKey].value
+            }
+        });
         const statTimestamps: number[] = stats.map(stat => (stat.timestamp - stats[0].timestamp)/(DAY_IN_MS));
         if (!stats)
             res.status(404).json("Stats not found.");
