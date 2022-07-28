@@ -48,6 +48,34 @@ export const StatNames: StatNames = {
     headshotPct: "Headshot %"
 }
 
+export type StatOption = {
+    label: string;
+    value: string | undefined;
+}
+
+export const StatOptions: StatOption[] = [
+    { value: "", label: "Select Stat" },
+    { value: "timePlayed", label: StatNames.timePlayed },
+    { value: "score", label: StatNames.score },
+    { value: "kills", label: StatNames.kills },
+    { value: "deaths", label: StatNames.deaths },
+    { value: "kd", label: StatNames.kd },
+    { value: "damage", label: StatNames.damage },
+    { value: "headshots", label: StatNames.headshots },
+    { value: "shotsFired", label: StatNames.shotsFired },
+    { value: "shotsHit", label: StatNames.shotsHit },
+    { value: "accuracy", label: StatNames.accuracy },
+    { value: "bombsPlanted", label: StatNames.bombsPlanted },
+    { value: "bombsDefused", label: StatNames.bombsDefused },
+    { value: "hostagesRescued", label: StatNames.hostagesRescued },
+    { value: "mvps", label: StatNames.mvps },
+    { value: "matchesPlayed", label: StatNames.matchesPlayed },
+    { value: "wins", label: StatNames.wins },
+    { value: "losses", label: StatNames.losses },
+    { value: "winLoss", label: StatNames.winLoss },
+    { value: "headshotPct", label: StatNames.headshotPct }
+]
+
 export interface StatCardsProps {
     data: ServerData[]
 }

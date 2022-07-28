@@ -16,7 +16,7 @@ const StatPlot: React.FC<StatPlotProps> = ({ stat, title }) => {
             setData(data);
         }
         fetchData();
-    }, []);
+    }, [stat]);
 
     return (
         <div key={stat}>
@@ -26,9 +26,24 @@ const StatPlot: React.FC<StatPlotProps> = ({ stat, title }) => {
                         x: data?.statTimestamps,
                         y: data?.statData,
                         type: "scatter",
-                        mode: "lines+markers",
+                        name: "Data",
+                        mode: "lines",
                         marker: {
                             color: "blue"
+                        }
+                    },
+                    {
+                        x: data?.statTimestamps,
+                        y: data?.bestFit,
+                        type: "scatter",
+                        name: "Trend",
+                        mode: "lines",
+                        marker: {
+                            color: "red"
+                        },
+                        line: {
+                            dash: "dot",
+                            width: 2
                         }
                     }
                 ]}

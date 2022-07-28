@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { MongoClient } from "mongodb";
-import { startAnimation } from "framer-motion/types/animation/utils/transitions";
 
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
 
@@ -31,21 +30,42 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const start = Date.now();
         const end = start - 30 * DAY_IN_MS;
         const stats = await statsCollection.find({ username, timestamp: { '$lte': start, '$gte': end } }, {projection: { data: { [statKey]: { value: 1 } }, timestamp: 1}}).toArray();
-        const statData: number[] = stats.map(stat => {
-            if (statKey == 'timePlayed') {
-                return (stat.data[statKey].value / 3600).toFixed(2);
-            } else {
-                return stat.data[statKey].value
-            }
-        });
-        const statTimestamps: number[] = stats.map(stat => (stat.timestamp - stats[0].timestamp)/(DAY_IN_MS));
         if (!stats)
             res.status(404).json("Stats not found.");
-        else
-            res.status(200).json({ statData, statTimestamps });
+        else {
+            const statData: number[] = stats.map(stat => {
+                if (statKey == 'timePlayed') {
+                    return (stat.data[statKey].value / 3600);
+                } else {
+                    return stat.data[statKey].value
+                }
+            });
+            const statTimestamps: number[] = stats.map(stat => (stat.timestamp - stats[0].timestamp)/(DAY_IN_MS));
+            const bestFit = calculateBestFit(statTimestamps, statData);
+            res.status(200).json({ statData, statTimestamps, bestFit });
+        }
     } catch (error) {
         res.status(500).json(error);
     } finally {
         await client.close();
     }
+}
+
+const calculateBestFit = (x: number[], y: number[]): number[] => {
+    if (x.length != y.length) {
+        throw new Error("Arrays must be of equal length.");
+    }
+
+    const x_avg = x.reduce((a, b) => a + b) / x.length;
+    const y_avg = y.reduce((a, b) => a + b) / y.length;
+    let xx : number[] = [];
+    let xy : number[] = [];
+    for (let i = 0; i < x.length; i++) {
+        xx.push((x[i]-x_avg)**2);
+        xy.push((x[i]-x_avg)*(y[i]-y_avg));
+    }
+    const slope = xy.reduce((a, b) => a + b) / xx.reduce((a, b) => a + b);
+    const intercept = y_avg - slope * x_avg;
+    const res_Y = x.map(x => slope * x + intercept);
+    return res_Y;
 }
