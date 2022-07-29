@@ -27,7 +27,7 @@ const StatPlot: React.FC<StatPlotProps> = ({ stat, title }) => {
                         y: data?.statData,
                         type: "scatter",
                         name: "Data",
-                        mode: "lines",
+                        mode: "lines+markers",
                         marker: {
                             color: "blue"
                         }
