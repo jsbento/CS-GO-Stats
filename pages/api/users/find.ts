@@ -3,13 +3,13 @@ import { MongoClient } from "mongodb";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== "GET") {
-        res.status(405).json("Method not allowed.");
+        res.status(405).json({ message: "Method not allowed." });
         return;
     }
     
     const { username } = req.query;
     if(!username) {
-        res.status(400).json("Invalid parameters.");
+        res.status(400).json({ message: "Invalid parameters." });
         return;
     }
 
@@ -20,11 +20,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
         const user = await usersCollection.findOne({ username });
         if (!user)
-            res.status(404).json("User not found.");
+            res.status(404).json({ message: "User not found." });
         else
             res.status(200).json(user);
     } catch (error) {
-        res.status(500).json(error);
+        res.status(500).json({ error });
     } finally {
         await client.close();
     }

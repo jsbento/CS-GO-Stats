@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import StatsCard from "../cards/StatsCard";
-import { ServerDataResponse } from "../../types/Data";
+import { ServerData, ServerDataResponse } from "../../types/Data";
 import Cookies from "js-cookie";
 import useSWR from "swr";
 import { ButtonBarProps } from "../../types/Components";
@@ -52,7 +52,7 @@ const StatCards: React.FC<StatCardsProps> = ({ page }) => {
         <>
             <ButtonBar {...buttonBarProps} />
             <ul className="grid gap-3 grid-cols-4">
-                {data.stats.map((stat, i) => ( <StatsCard key={i} {...stat} /> ))}
+                {data.stats.map((stat, i) => ( <StatsCard key={i} {...stat as ServerData} /> ))}
             </ul>
             <ButtonBar {...buttonBarProps} />
         </>

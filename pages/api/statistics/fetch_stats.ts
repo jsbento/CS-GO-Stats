@@ -3,13 +3,13 @@ import { Stats } from "../../../types/Stats";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== "GET") {
-        res.status(405).json("Method not allowed.");
+        res.status(405).json({ message: "Method not allowed." });
         return;
     }
 
     const cookie = JSON.parse(req.cookies.info);
     if (!cookie) {
-        res.status(401).json("Unauthorized.");
+        res.status(401).json({ message: "Unauthorized." });
         return;
     }
 
@@ -62,6 +62,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 res.status(500).json({stats, message: "Error saving stats."});
         })
     } catch (error) {
-        res.status(500).json({error});
+        res.status(500).json({ error });
     }
 }

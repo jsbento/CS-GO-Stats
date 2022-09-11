@@ -3,13 +3,13 @@ import { MongoClient } from "mongodb";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== "GET") {
-        res.status(405).json("Method not allowed.");
+        res.status(405).json({ message: "Method not allowed." });
         return;
     }
 
     const { username } = req.query;
     if (!username) {
-        res.status(400).json("Invalid parameters.");
+        res.status(400).json({ message: "Invalid parameters." });
         return;
     }
 
@@ -23,9 +23,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             res.status(404).json("User not found.");
         } else {
             if (user.token.expiresAt < new Date())
-                res.status(401).json({message: "Token expired.", valid: false});
+                res.status(401).json({ message: "Token expired.", valid: false });
             else
-                res.status(200).json({token: user.token, valid: true});
+                res.status(200).json({ token: user.token, valid: true });
         }
     } catch (error) {
         res.status(500).json(error);

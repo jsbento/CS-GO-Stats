@@ -8,3 +8,9 @@ export type StatPlotProps = {
     stat: string,
     title: string
 }
+
+export type CompositePlotProps = {
+    statA: string,
+    statB: string,
+    title: string
+}

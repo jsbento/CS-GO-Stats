@@ -3,13 +3,13 @@ import { MongoClient } from "mongodb";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== "DELETE") {
-        res.status(405).json("Method not allowed.");
+        res.status(405).json({ message: "Method not allowed." });
         return;
     }
 
     const { username } = req.body;
     if (!username) {
-        res.status(400).json("Invalid parameters.");
+        res.status(400).json({ message: "Invalid parameters." });
         return;
     }
 
@@ -19,9 +19,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     try {
         await statsCollection.deleteMany({ username });
-        res.status(202).json({"message": "Stats deleted successfully."});
+        res.status(202).json({ message: "Stats deleted successfully." });
     } catch (error) {
-        res.status(500).json(error);
+        res.status(500).json({ error });
     } finally {
         await client.close();
     }

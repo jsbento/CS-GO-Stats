@@ -5,18 +5,18 @@ const DAY_IN_MS = 24 * 60 * 60 * 1000;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== "GET") {
-        res.status(405).json("Method not allowed.");
+        res.status(405).json({ message: "Method not allowed." });
         return;
     }
     const { stat } = req.query;
     if (!stat) {
-        res.status(400).json("Invalid parameters.");
+        res.status(400).json({ message: "Invalid parameters." });
         return;
     }
 
     const username = JSON.parse(req.cookies.info).user;
     if (!username) {
-        res.status(401).json("Unauthorized.");
+        res.status(401).json({ message: "Unauthorized." });
         return;
     }
 
@@ -31,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const end = start - 30 * DAY_IN_MS;
         const stats = await statsCollection.find({ username, timestamp: { '$lte': start, '$gte': end } }, {projection: { data: { [statKey]: { value: 1 } }, timestamp: 1}}).toArray();
         if (!stats)
-            res.status(404).json("Stats not found.");
+            res.status(404).json({ message: "Stats not found." });
         else {
             const statData: number[] = stats.map(stat => {
                 if (statKey == 'timePlayed') {
@@ -45,7 +45,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             res.status(200).json({ statData, statTimestamps, bestFit });
         }
     } catch (error) {
-        res.status(500).json(error);
+        res.status(500).json({ error });
     } finally {
         await client.close();
     }

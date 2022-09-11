@@ -6,7 +6,7 @@ const RESULTS_PER_PAGE = 4;
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== "GET") {
-        res.status(405).json("Method not allowed.");
+        res.status(405).json({ message: "Method not allowed." });
         return;
     }
 
@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { info } = req.cookies;
     let cookie;
     if(!info) {
-        res.status(401).json({message: "Unauthorized."});
+        res.status(401).json({ message: "Unauthorized." });
         return;
     } else {
         cookie = JSON.parse(info);
@@ -47,7 +47,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         };
 
         if (!stats)
-            res.status(404).json("Stats not found.");
+            res.status(404).json({ message: "Stats not found." });
         else {
             const start = (pageNum - 1) * RESULTS_PER_PAGE;
             const end = start + RESULTS_PER_PAGE;

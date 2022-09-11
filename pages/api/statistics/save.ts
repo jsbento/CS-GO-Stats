@@ -3,12 +3,12 @@ import { MongoClient } from "mongodb";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method !== "POST") {
-        res.status(405).json("Method not allowed.");
+        res.status(405).json({ message: "Method not allowed." });
         return;
     }
     const { username, stats, timestamp } = req.body;
     if (!username || !stats || !timestamp) {
-        res.status(400).json("Invalid parameters.");
+        res.status(400).json({ message: "Invalid parameters." });
         return;
     }
 
@@ -18,9 +18,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     try {
         const result = await statsCollection.insertOne({ username, data: stats, timestamp });
-        res.status(201).json({"message": "Stats saved successfully.", "insertedId": result.insertedId});
+        res.status(201).json({ message: "Stats saved successfully.", insertedId: result.insertedId });
     } catch (error) {
-        res.status(500).json({error});
+        res.status(500).json({ error });
     } finally {
         await client.close();
     }
