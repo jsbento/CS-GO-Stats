@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { MongoClient } from "mongodb";
+import { Filter, MongoClient } from "mongodb";
 
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
 
@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(405).json({ message: "Method not allowed." });
         return;
     }
-    const { stat } = req.query;
+    const { stat, range } = req.query;
     if (!stat) {
         res.status(400).json({ message: "Invalid parameters." });
         return;
@@ -21,15 +21,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     const statKey: string = stat.toString();
+    const rangeValue: number = parseInt(range.toString());
 
     const client = await MongoClient.connect(process.env.MONGODB_URI!);
     const db = client.db();
     const statsCollection = db.collection('stats');
 
     try {
-        const start = Date.now();
-        const end = start - 30 * DAY_IN_MS;
-        const stats = await statsCollection.find({ username, timestamp: { '$lte': start, '$gte': end } }, {projection: { data: { [statKey]: { value: 1 } }, timestamp: 1}}).toArray();
+        const filter: {[key: string]: string | Object} = {
+            username,
+        };
+        if (rangeValue !== 0) {
+            const start = Date.now();
+            filter['timestamp'] = {
+                '$lte': start,
+                '$gte': start - rangeValue * DAY_IN_MS
+            }
+        }
+        const stats = await statsCollection.find(filter, {projection: { data: { [statKey]: { value: 1 } }, timestamp: 1}}).toArray();
         if (!stats)
             res.status(404).json({ message: "Stats not found." });
         else {

@@ -7,7 +7,7 @@ const Dropdown: React.FC<DropdownProps> = ({ label, value, options, onChange }) 
             {label}:
             <select className="ml-3" value={value} onChange={onChange}>
                 {options.map(option =>
-                    <option value={option.value}>{option.label}</option>
+                    <option key={option.value} value={option.value}>{option.label}</option>
                 )}
             </select>
         </label>

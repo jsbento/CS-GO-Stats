@@ -3,12 +3,12 @@ import { PlotData, StatPlotProps } from "../../types/Plot";
 import dynamic from "next/dynamic";
 const Plot = dynamic(() => import("react-plotly.js"), {ssr: false});
 
-const StatPlot: React.FC<StatPlotProps> = ({ stat, title }) => {
+const StatPlot: React.FC<StatPlotProps> = ({ stat, title, filters }) => {
     const [data, setData] = useState<PlotData | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
-            const data = await fetch(`/api/statistics/fetch_stat?stat=${stat}`, {
+            const data = await fetch(`/api/statistics/fetch_stat?stat=${stat}&range=${filters.end}`, {
                 method: "GET",
             })
             .then(res => res.json())
@@ -16,7 +16,7 @@ const StatPlot: React.FC<StatPlotProps> = ({ stat, title }) => {
             setData(data);
         }
         fetchData();
-    }, [stat]);
+    }, [stat, filters]);
 
     return (
         <div key={stat}>

@@ -1,3 +1,5 @@
+import { StatFilters } from "./Stats"
+
 export type PlotData = {
     statData: number[],
     statTimestamps: number[],
@@ -6,7 +8,8 @@ export type PlotData = {
 
 export type StatPlotProps = {
     stat: string,
-    title: string
+    title: string,
+    filters: StatFilters
 }
 
 export type CompositePlotProps = {

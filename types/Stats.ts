@@ -76,6 +76,19 @@ export const StatOptions: StatOption[] = [
     { value: "headshotPct", label: StatNames.headshotPct }
 ]
 
+export const PullRangeOptions: StatOption[] = [
+    { value: "0", label: "All" },
+    { value: "30", label: "Last 30 Days" },
+    { value: "15", label: "Last 15 Days" },
+    { value: "7", label: "Last 7 Days" },
+    { value: "1", label: "Last 24 Hours" }
+]
+
 export interface StatCardsProps {
     data: ServerData[]
+}
+
+export type StatFilters = {
+    start: number;
+    end: number;
 }
