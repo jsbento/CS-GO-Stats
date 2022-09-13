@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { StatNames, StatOptions, PullRangeOptions, StatFilters } from "../types/Stats";
 import Dropdown from "../components/Dropdown";
 import dynamic from "next/dynamic";
+import StatCard from "../components/cards/StatCard";
 const StatPlot = dynamic(() => import("../components/stats/StatPlot"), {ssr: false});
 const CompositeStatPlot = dynamic(() => import("../components/stats/CompositeStatPlot"), {ssr: false});
 
@@ -78,6 +79,13 @@ const Visualizations: NextPage = () => {
                 title={`${StatNames[statB]} vs ${StatNames[statA]}`}
               />
             }
+          </div>
+          <div className="text-center items-center">
+            <h2 className="font-semibold my-2">Individual Stat Data</h2>
+            <div className="flex flex-row">
+              { statB && <StatCard stat={statB} /> }
+              { statA && <StatCard stat={statA} /> }
+            </div>
           </div>
         </>
       }

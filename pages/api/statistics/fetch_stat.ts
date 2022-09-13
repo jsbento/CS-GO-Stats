@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { Filter, MongoClient } from "mongodb";
+import { MongoClient } from "mongodb";
 
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
 

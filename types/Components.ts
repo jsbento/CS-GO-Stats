@@ -13,3 +13,7 @@ export interface DropdownProps {
     options: StatOption[];
     onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
+
+export interface StatCardProps {
+    stat: string;
+}
