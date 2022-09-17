@@ -11,7 +11,7 @@ const Visualizations: NextPage = () => {
   const [stat, setStat] = useState<string>('');
   const [statA, setStatA] = useState<string>('');
   const [statB, setStatB] = useState<string>('');
-  const [tab , setTab] = useState<string>('single');
+  const [tab, setTab] = useState<string>('single');
   const [filterValue, setFilterValue] = useState<string>('');
   const [filters, setFilters] = useState<StatFilters>({ start: 0, end: 0 });
 
@@ -83,8 +83,8 @@ const Visualizations: NextPage = () => {
           <div className="text-center items-center">
             <h2 className="font-semibold my-2">Individual Stat Data</h2>
             <div className="flex flex-row">
-              { statB && <StatCard stat={statB} /> }
               { statA && <StatCard stat={statA} /> }
+              { statB && <StatCard stat={statB} /> }
             </div>
           </div>
         </>
